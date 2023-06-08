@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from './../../../core/services/auth.service';
-import {MyValidators} from './../../../utils/validators'
+import { MyValidators } from './../../../utils/validators';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 // Error when invalid control is dirty, touched, or submitted.
@@ -34,7 +41,7 @@ export class CrossFieldStateMatcher implements ErrorStateMatcher {
 })
 export class RegisterComponent implements OnInit {
   form: FormGroup | any;
-  crossMatcher = new CrossFieldStateMatcher;
+  crossMatcher = new CrossFieldStateMatcher();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,6 +62,12 @@ export class RegisterComponent implements OnInit {
   get confirmPassword() {
     return this.form.get('confirmPassword');
   }
+  get type() {
+    return this.form.get('type');
+  }
+  get companyName() {
+    return this.form.get('companyName');
+  }
 
   register(event: Event) {
     event.preventDefault();
@@ -64,20 +77,40 @@ export class RegisterComponent implements OnInit {
       this.authService.createUser(value.email, value.password).then(() => {
         this.router.navigate(['/auth/login']);
       });
-    }else{
+    } else {
       this.form.markAllAsTouched();
-      console.log("Errors has ocurrs!!!!");
+      console.log('Errors has ocurrs!!!!');
     }
   }
 
   private buildForm() {
-    this.form = this.formBuilder.group({
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
-      confirmPassword: ['', [Validators.required]],
-    },
-    {
-      validators: MyValidators.matchPasswords
+    this.form = this.formBuilder.group(
+      {
+        email: ['', [Validators.required]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            MyValidators.validPassword,
+          ],
+        ],
+        confirmPassword: ['', [Validators.required]],
+        type: ['company', [Validators.required]],
+        companyName: ['', [Validators.required]],
+      },
+      {
+        validators: MyValidators.matchPasswords,
+      }
+    );
+
+    this.type.valueChanges.subscribe((value: string) => {
+      if (value === 'company') {
+        this.companyName.setValidators([Validators.required]);
+      } else {
+        this.companyName.setValidators(null);
+      }
+      this.companyName.updateValueAndValidity();
     });
   }
 }

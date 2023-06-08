@@ -8,7 +8,12 @@
         <div class="col-xs">
           <mat-form-field>
             <mat-label>Email</mat-label>
-            <input placeholder="email" formControlName="email" matInput type="email">
+            <input
+              placeholder="email"
+              formControlName="email"
+              matInput
+              type="email"
+            />
             <mat-error *ngIf="email.hasError('required')">
               Este campo es obligatorio
             </mat-error>
@@ -19,7 +24,12 @@
         <div class="col-xs">
           <mat-form-field>
             <mat-label>Password</mat-label>
-            <input placeholder="password" formControlName="password" matInput type="password">
+            <input
+              placeholder="password"
+              formControlName="password"
+              matInput
+              type="password"
+            />
             <mat-error *ngIf="password.hasError('required')">
               Este campo es obligatorio
             </mat-error>
@@ -36,24 +46,58 @@
         <div class="col-xs">
           <mat-form-field>
             <mat-label>Confirm Password</mat-label>
-            <input placeholder="Confirm password" formControlName="confirmPassword" matInput 	type="password" [errorStateMatcher]="crossMatcher" >
+            <input
+              placeholder="Confirm password"
+              formControlName="confirmPassword"
+              matInput
+              type="password"
+              [errorStateMatcher]="crossMatcher"
+            />
 
-            <mat-error *ngIf="confirmPassword.hasError('required');else elseBlock">
+            <mat-error
+              *ngIf="confirmPassword.hasError('required'); else elseBlock"
+            >
               Debe confirmar el password
             </mat-error>
             <ng-template #elseBlock>
-            <mat-error *ngIf="form.hasError('no_match_password')">
-              No coincide con el password
-            </mat-error>
-
+              <mat-error *ngIf="form.hasError('no_match_password')">
+                No coincide con el password
+              </mat-error>
             </ng-template>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-radio-group formControlName="type" aria-label="Select an option">
+            <mat-radio-button value="company">Company</mat-radio-button>
+            <mat-radio-button value="user">User</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-form-field>
+            <mat-label>Company Name</mat-label>
+            <input
+              placeholder="email"
+              formControlName="companyName"
+              matInput
+              type="text"
+            />
+            <mat-error
+            *ngIf="companyName.hasError('required'); else elseBlock"
+          >
+            Debe ingresar el nombre de su compañia
+          </mat-error>
           </mat-form-field>
         </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button [disabled]="form.invalid" mat-raised-button type="submit">Registro</button>
+      <button [disabled]="form.invalid" mat-raised-button type="submit">
+        Registro
+      </button>
     </mat-card-actions>
   </mat-card>
-
 </form>
