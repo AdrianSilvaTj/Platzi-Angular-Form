@@ -24,7 +24,17 @@
         <div class="col-xs">
           <mat-form-field>
             <mat-label>Confirm Password</mat-label>
-            <input placeholder="password" formControlName="password" matInput type="password">
+            <input placeholder="Confirm password" formControlName="confirmPassword" matInput 	type="password" [errorStateMatcher]="crossMatcher" >
+
+            <mat-error *ngIf="confirmPassword.hasError('required');else elseBlock">
+              Debe confirmar el password
+            </mat-error>
+            <ng-template #elseBlock>
+            <mat-error *ngIf="form.hasError('no_match_pass')">
+              No coincide con el password
+            </mat-error>
+
+            </ng-template>
           </mat-form-field>
         </div>
       </div>
