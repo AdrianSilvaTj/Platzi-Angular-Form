@@ -59,10 +59,14 @@ export class RegisterComponent implements OnInit {
   register(event: Event) {
     event.preventDefault();
     if (this.form.valid) {
+      console.log('Registrado con exito!!!');
       const value = this.form.value;
       this.authService.createUser(value.email, value.password).then(() => {
         this.router.navigate(['/auth/login']);
       });
+    }else{
+      this.form.markAllAsTouched();
+      console.log("Errors has ocurrs!!!!");
     }
   }
 
