@@ -17,7 +17,7 @@ export class CrossFieldStateMatcher implements ErrorStateMatcher {
     form: FormGroupDirective | NgForm | null
   ): boolean {
     if (control.touched || form.submitted) {
-      if (form.hasError('no_match_pass') || control.hasError('required')) {
+      if (form.hasError('no_match_password') || control.hasError('required')) {
         return true;
       }
     }
@@ -69,7 +69,7 @@ export class RegisterComponent implements OnInit {
   private buildForm() {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6), MyValidators.validPassword]],
       confirmPassword: ['', [Validators.required]],
     },
     {

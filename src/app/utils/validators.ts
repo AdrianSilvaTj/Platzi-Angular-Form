@@ -22,7 +22,7 @@ export class MyValidators {
     const password = control.get('password').value;
     const confirmPassword = control.get('confirmPassword').value;
     if (password !== confirmPassword) {
-      return {match_password: true};
+      return {no_match_password: true};
     }
     return null;
   }
