@@ -47,7 +47,10 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button type="submit">Guardar categoría</button>
+      <button mat-raised-button color="primary" type="submit">
+        <span *ngIf="!catId">Registrar nuevo</span>
+        <span *ngIf="catId">Guardar cambios</span>
+      </button>
     </mat-card-actions>
   </mat-card>
 </form>

@@ -1,6 +1,7 @@
 import { map } from 'rxjs/operators';
 import { AbstractControl } from '@angular/forms';
 import { CategoriesService } from '../services/categories.service';
+import { Category } from '../core/models/categories.model';
 
 export class MyValidators {
 
@@ -43,6 +44,21 @@ export class MyValidators {
         map((response:any) => {
           const isAvailable = response.isAvailable;
           if (!isAvailable){
+            return {not_available: true};
+          }
+          return null;
+        })
+      )
+    }
+  }
+
+  static validateCategAll(service: CategoriesService){
+    return (control: AbstractControl) => {
+      const value = control.value;
+      return service.getAllCategories().pipe(
+        map((response:Category[]) => {
+          const notAvailable = response.find(cat => cat.name === value);
+          if (notAvailable){
             return {not_available: true};
           }
           return null;
