@@ -1,1 +1,53 @@
-<p>category-form works!</p>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Categoría</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-xs">
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input
+              placeholder="Nombre"
+              formControlName="name"
+              matInput
+              type="text"
+            />
+            <div
+              class="messages"
+              *ngIf="nameField.touched && nameField.invalid"
+            >
+              <mat-error *ngIf="nameField.hasError('required')">
+                Este campo es requerido
+              </mat-error>
+              <mat-error *ngIf="nameField.hasError('minlength')">
+                Debe tener minimo 4 caracteres
+              </mat-error>
+              <mat-error *ngIf="nameField.hasError('not_available')">
+                Este nombre no esta disponible
+              </mat-error>
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <div class="file-select" id="src-file1" >
+            <mat-label>Image</mat-label>
+            <input
+            placeholder="Image"
+            type="file"
+            (change)="uploadFile($event)"
+            name="src-file1" aria-label="Archivo"
+            />
+            <img [src]="imageField!.value" alt="" width="500px" />
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button type="submit">Guardar categoría</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

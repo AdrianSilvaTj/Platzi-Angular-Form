@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url_api: 'https://store.nicobytes.site/api',
+  url_api: 'https://api.escuelajs.co/api/v1',
   firebase: {
     projectId: 'platzi-angular-form',
     appId: '1:167718191313:web:15e933404b32a59c6d45f0',

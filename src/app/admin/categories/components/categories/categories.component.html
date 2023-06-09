@@ -1,1 +1,23 @@
-<p>categories works!</p>
+<a routerLink="create">Crear Categoria</a>
+
+<mat-grid-list cols="4" rowHeight="2:3">
+  <mat-grid-tile *ngFor="let cat of categories">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image" style="background-image: url('{{cat.image}}');"></div>
+        <mat-card-title>{{cat.name}}</mat-card-title>
+      </mat-card-header>
+      <img width="100%" mat-card-image src="{{cat.image}}" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <p>
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
