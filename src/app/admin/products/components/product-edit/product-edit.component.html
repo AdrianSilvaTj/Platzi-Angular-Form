@@ -29,11 +29,43 @@
             </mat-form-field>
           </div>
         </div>
+        <div class="row">
+          <div class="col-xs">
+            <mat-form-field>
+              <mat-label>Categorias</mat-label>
+              <mat-select formControlName="category" placeholder="Escoja una categoria">
+                  <mat-option *ngFor="let cat of categories" [value]="cat.id">{{cat.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="categoryField.errors && categoryField.dirty">
+              <mat-error *ngIf="categoryField.hasError('minlength')">
+                debe tener mas de 1 caracter
+              </mat-error>
+              <mat-error *ngIf="categoryField.hasError('required')">el campo es requerido</mat-error>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs">
+            <div class="file-select" >
+              <mat-label>Images</mat-label>
+              <input
+              placeholder="Images"
+              type="file"
+              (change)="uploadFile($event)"
+              aria-label="Archivo"
+              />
+              <img [src]="imagesField!.value" alt="" width="500px" />
+            </div>
+          </div>
+          <div *ngIf="imagesField.errors && imagesField.dirty">
+            <mat-error *ngIf="imagesField.hasError('required')">el campo es requerido</mat-error>
+          </div>
+        </div>
       </mat-card-content>
       <mat-card-actions>
         <button [disabled]="form.invalid" mat-raised-button type="submit">Guardar</button>
       </mat-card-actions>
     </mat-card>
-    
+
   </form>
-  

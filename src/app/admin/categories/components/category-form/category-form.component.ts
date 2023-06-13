@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CategoriesService } from 'src/app/services/categories.service';
@@ -15,26 +15,28 @@ import { Category } from 'src/app/core/models/categories.model';
 export class CategoryFormComponent implements OnInit {
 
   form!: FormGroup;
-  catId : string;
+  isNew = true;
+
+  // se ejecuta justo en el momento exacto en el que la variable @Input es recibida
+  @Input()
+  set category (data:Category){
+    if (data){
+      this.isNew = false
+      this.form.patchValue(data);
+    }
+  }
+  @Output() create= new EventEmitter();
+  @Output() update= new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
-    private categoriesService: CategoriesService,
-    private router: Router,
     private angularFireStorage: AngularFireStorage,
-    private activatedRoute: ActivatedRoute,
-
+    private categoriesService: CategoriesService
   ) {
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((params) => {
-      this.catId = params.get('id');
-      if (this.catId){
-        this.getCategorySel();
-      }
-    })
   }
 
   private buildForm() {
@@ -54,44 +56,14 @@ export class CategoryFormComponent implements OnInit {
 
   save() {
     if (this.form.valid) {
-      if (this.catId){
-        this.updateCategorySel();
+      if (!this.isNew){
+       this.update.emit(this.form.value);
       }else{
-        this.createCategory();
+        this.create.emit(this.form.value);
       }
     } else {
       this.form.markAllAsTouched();
     }
-  }
-
-  private createCategory() {
-    const data = this.form.value;
-    this.categoriesService.createCategory(data)
-    .subscribe(rta => {
-      console.log(rta);
-      this.router.navigate(['/admin/categories']);
-    });
-  }
-
-  /* Esta función se llama cuando se detecta un id en la url, y utiliza la función .categoriesService.getCategory(this.catId), para obtener los datos de la categoria,
-  cuyo Id se ha enviado desde la url, luego con patchValue, asigna los valores obtenidos a los campos del formulario
-   */
-  private getCategorySel(){
-    this.categoriesService.getCategory(this.catId)
-    .subscribe((category: Category) =>{
-      this.form.patchValue(category);
-      this.nameField.clearAsyncValidators();
-      this.nameField.updateValueAndValidity();
-    });
-  }
-
-  private updateCategorySel() {
-    const data = this.form.value;
-    this.categoriesService.updateCategory(this.catId,data)
-    .subscribe(rta => {
-      console.log(rta);
-      this.router.navigate(['/admin/categories']);
-    });
   }
 
   uploadFile(event: any){

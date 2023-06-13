@@ -48,8 +48,8 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit">
-        <span *ngIf="!catId">Registrar nuevo</span>
-        <span *ngIf="catId">Guardar cambios</span>
+        <span *ngIf="this.isNew">Registrar nuevo</span>
+        <span *ngIf="!this.isNew">Guardar cambios</span>
       </button>
     </mat-card-actions>
   </mat-card>

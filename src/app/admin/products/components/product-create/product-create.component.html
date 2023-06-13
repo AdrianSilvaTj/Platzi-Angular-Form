@@ -7,45 +7,94 @@
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <input placeholder="Id" formControlName="id" matInput type="text">
+            <input
+              placeholder="Title"
+              formControlName="title"
+              matInput
+              type="text"
+            />
           </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs">
-          <mat-form-field>
-            <input placeholder="Title" formControlName="title" matInput type="text">
-          </mat-form-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs">
-          <mat-form-field>
-            <input placeholder="Price" formControlName="price" matInput type="number">
-          </mat-form-field>
-          <div *ngIf="priceField.errors && priceField.dirty">
-            <p *ngIf="priceField.hasError('price_invalid')">no te debes pasar de 10000</p>
-            <p *ngIf="priceField.hasError('required')">el campo es requerido</p>
+          <div *ngIf="titleField.errors && titleField.dirty">
+            <mat-error *ngIf="titleField.hasError('minlength')">
+              debe tener mas de 1 caracter
+            </mat-error>
+            <mat-error *ngIf="titleField.hasError('required')">el campo es requerido</mat-error>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs">
           <mat-form-field>
-            <textarea placeholder="Text" formControlName="description" matInput></textarea>
+            <input
+            placeholder="Price"
+            formControlName="price"
+            matInput
+            type="number"
+            />
           </mat-form-field>
+          <div *ngIf="priceField.errors && priceField.dirty">
+            <mat-error *ngIf="priceField.hasError('price_invalid')">
+              no te debes pasar de 10000
+            </mat-error>
+            <mat-error *ngIf="priceField.hasError('required')">el campo es requerido</mat-error>
+          </div>
         </div>
       </div>
       <div class="row">
         <div class="col-xs">
-          <img *ngIf="(image$ | async) as image" [src]="image" alt="">
-          <input type="file" (change)="uploadFile($event)">
+          <mat-form-field>
+            <textarea
+              placeholder="Text"
+              formControlName="description"
+              matInput
+            ></textarea>
+          </mat-form-field>
+          <div *ngIf="descriptionField.errors && descriptionField.dirty">
+            <mat-error *ngIf="descriptionField.hasError('minlength')">
+              debe tener mas de 10 caracteres
+            </mat-error>
+            <mat-error *ngIf="descriptionField.hasError('required')">el campo es requerido</mat-error>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <mat-form-field>
+            <mat-label>Categorias</mat-label>
+            <mat-select formControlName="categoryId" placeholder="Escoja una categoria">
+                <mat-option *ngFor="let cat of categories" [value]="cat.id">{{cat.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="categoryIdField.errors && categoryIdField.dirty">
+            <mat-error *ngIf="categoryIdField.hasError('minlength')">
+              debe tener mas de 1 caracter
+            </mat-error>
+            <mat-error *ngIf="categoryIdField.hasError('required')">el campo es requerido</mat-error>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs">
+          <div class="file-select" >
+            <mat-label>Images</mat-label>
+            <input
+            placeholder="Images"
+            type="file"
+            (change)="uploadFile($event)"
+            aria-label="Archivo"
+            />
+            <img [src]="imagesField!.value" alt="" width="500px" />
+          </div>
+        </div>
+        <div *ngIf="imagesField.errors && imagesField.dirty">
+          <mat-error *ngIf="imagesField.hasError('required')">el campo es requerido</mat-error>
         </div>
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button [disabled]="form.invalid" mat-raised-button type="submit">Guardar</button>
+      <button [disabled]="form.invalid" mat-raised-button type="submit">
+        Guardar
+      </button>
     </mat-card-actions>
   </mat-card>
-  
 </form>
