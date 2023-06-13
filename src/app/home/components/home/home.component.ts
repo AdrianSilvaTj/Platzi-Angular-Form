@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import Swiper from 'swiper';
 
@@ -11,7 +12,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   mySwiper: Swiper | any;
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+  ) { }
 
   ngOnInit() {
   }

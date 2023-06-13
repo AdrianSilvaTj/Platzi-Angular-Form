@@ -90,6 +90,11 @@
           <mat-error *ngIf="imagesField.hasError('required')">el campo es requerido</mat-error>
         </div>
       </div>
+      <div class="row">
+        <div class="col-xs">
+          <app-stepper formControlName="stock"></app-stepper>
+        </div>
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <button [disabled]="form.invalid" mat-raised-button type="submit">

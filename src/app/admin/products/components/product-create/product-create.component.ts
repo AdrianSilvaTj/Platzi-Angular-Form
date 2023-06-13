@@ -89,7 +89,12 @@ export class ProductCreateComponent implements OnInit {
       images: [[''],[Validators.required]],
       categoryId: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(10)]],
+      stock: [100, [Validators.required]],
     });
+
+    this.form.get('stock').valueChanges.subscribe((data:Number) => {
+      console.log(data);
+    })
   }
 
   get titleField() {
